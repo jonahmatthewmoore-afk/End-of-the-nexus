@@ -126,11 +126,11 @@ const WORLD = {
     width: 5200,
     height: 3200
 };
-const CREATOR_NAME = "Jonah Matthew Moore";
+const CREATOR_NAME = "The Developer";
 const DEFAULT_PLAYER_NAME = "Player 1";
 const CREATOR_ABOUT_OLD = "Hi, I am Jonah matthew moore and i am a 10 year old boy who lives in cary north carolina. I have worked on this game for over a year and got inspired from my 21 year old brother. He works in UNC colledge and climbs mountains and codes for a living. I am gratefull for all of you people who supporte m to make this game.";
 const CREATOR_ABOUT_OLD_FIXED = "Hi, I am Jonah Matthew Moore, and I am a 10-year-old boy who lives in Cary, North Carolina. I have worked on this game for over a year and got inspired by my 21-year-old brother. He works at UNC college, climbs mountains, and codes for a living. I am grateful for all of you people who supported me in making this game.";
-const CREATOR_ABOUT = "Hi, I am Jonah Matthew Moore, and I am the creator of this game. I live in NC, have worked on it for over a year, and got inspired by my older brother. Thank you to everyone who supports me and believes in what I am building.";
+const CREATOR_ABOUT = "Hi, I am the creator of this game. I live in NC, have worked on it for over a year, and got inspired by my older brother. Thank you to everyone who supports me and believes in what I am building.";
 const WORLD_SCALE = WORLD.width / 3600;
 const CHARACTER_SCALE = 1.35;
 const CHASE_CAMERA_ZOOM = 0.92;
@@ -394,7 +394,7 @@ const PROFILE_SAVE_KEY = "nexus-player-profile";
 const RUN_SAVE_KEY = "nexus-current-run";
 const PROGRESS_RESET_MARKER_KEY = "nexus-progress-reset-v1";
 const REVIEWS_SAVE_KEY = "nexus-player-reviews";
-const VIEW_COUNTER_NAMESPACE = "jonahmatthewmoore-afk-end-of-the-nexus";
+const VIEW_COUNTER_NAMESPACE = "end-of-the-nexus";
 const VIEW_COUNTER_KEY = "website-views";
 const VIEW_COUNTER_SESSION_KEY = "end-of-the-nexus-view-counted";
 const VIEW_COUNTER_FALLBACK_KEY = "end-of-the-nexus-local-views";
