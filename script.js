@@ -398,6 +398,7 @@ const VIEW_COUNTER_NAMESPACE = "jonahmatthewmoore-afk-end-of-the-nexus";
 const VIEW_COUNTER_KEY = "website-views";
 const VIEW_COUNTER_SESSION_KEY = "end-of-the-nexus-view-counted";
 const VIEW_COUNTER_FALLBACK_KEY = "end-of-the-nexus-local-views";
+const CACHE_RESET_MARKER_KEY = "end-of-the-nexus-cache-reset-v1";
 const LOOKS = {
     skin: {
         warm: "#f2c5a1",
@@ -2999,11 +3000,35 @@ async function handleInstallApp() {
     window.alert(platformInfo.instructions);
 }
 
-function registerAppShell() {
+async function resetOldAppCachesOnce() {
+    if (!("serviceWorker" in navigator) || !("caches" in window) || window.location.protocol === "file:") {
+        return;
+    }
+
+    try {
+        if (window.localStorage.getItem(CACHE_RESET_MARKER_KEY) === "done") {
+            return;
+        }
+
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        await Promise.all(registrations.map((registration) => registration.unregister()));
+
+        const cacheKeys = await caches.keys();
+        await Promise.all(cacheKeys.map((key) => caches.delete(key)));
+
+        window.localStorage.setItem(CACHE_RESET_MARKER_KEY, "done");
+    } catch (error) {
+        // Ignore cache reset errors.
+    }
+}
+
+async function registerAppShell() {
     if (!("serviceWorker" in navigator) || window.location.protocol === "file:") {
         updateInstallUi();
         return;
     }
+
+    await resetOldAppCachesOnce();
 
     navigator.serviceWorker.register("./sw.js").then(() => {
         appInstall.serviceWorkerReady = true;
