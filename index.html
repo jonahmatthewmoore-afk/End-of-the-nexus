@@ -21,7 +21,7 @@
     <link rel="manifest" href="manifest.webmanifest?v=1">
     <link rel="icon" href="app-icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="app-icon.svg">
-    <link rel="stylesheet" href="style.css?v=56">
+    <link rel="stylesheet" href="style.css?v=57">
 </head>
 <body>
     <main class="app-shell">
@@ -121,6 +121,11 @@
                         <strong>Jonah Matthew Moore</strong>
                         <label class="field-label" for="player-name-input">Player Name</label>
                         <input id="player-name-input" class="name-input" type="text" maxlength="20" placeholder="Enter your name" value="Player 1">
+                        <div class="viewer-card">
+                            <span class="field-label">Viewer Counter</span>
+                            <strong id="viewer-count-text">Loading...</strong>
+                            <span id="viewer-count-note" class="viewer-count-note">This will show website views after the live site loads.</span>
+                        </div>
                     </div>
 
                     <div class="home-menu-panel">
@@ -499,6 +504,6 @@
         </footer>
     </main>
 
-    <script src="script.js?v=56"></script>
+    <script src="script.js?v=57"></script>
 </body>
 </html>

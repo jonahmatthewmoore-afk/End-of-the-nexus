@@ -5,6 +5,8 @@ const ui = {
     homeScreen: document.getElementById("home-screen"),
     homePanel: document.querySelector(".home-panel"),
     playerNameInput: document.getElementById("player-name-input"),
+    viewerCountText: document.getElementById("viewer-count-text"),
+    viewerCountNote: document.getElementById("viewer-count-note"),
     homePveButton: document.getElementById("home-pve-button"),
     homeBossRushButton: document.getElementById("home-bossrush-button"),
     homePremiumNightmareButton: document.getElementById("home-premium-nightmare-button"),
@@ -392,6 +394,9 @@ const PROFILE_SAVE_KEY = "nexus-player-profile";
 const RUN_SAVE_KEY = "nexus-current-run";
 const PROGRESS_RESET_MARKER_KEY = "nexus-progress-reset-v1";
 const REVIEWS_SAVE_KEY = "nexus-player-reviews";
+const VIEW_COUNTER_NAMESPACE = "jonahmatthewmoore-afk-end-of-the-nexus";
+const VIEW_COUNTER_KEY = "website-views";
+const VIEW_COUNTER_SESSION_KEY = "end-of-the-nexus-view-counted";
 const LOOKS = {
     skin: {
         warm: "#f2c5a1",
@@ -2820,6 +2825,37 @@ function setHomeAppStatus(message, tone = "") {
     }
 }
 
+async function refreshViewerCount() {
+    if (!ui.viewerCountText || !ui.viewerCountNote) {
+        return;
+    }
+
+    if (window.location.protocol === "file:") {
+        ui.viewerCountText.textContent = "0";
+        ui.viewerCountNote.textContent = "Viewer counting works on the live website, not from a local file on this computer.";
+        return;
+    }
+
+    const shouldCountVisit = !window.sessionStorage.getItem(VIEW_COUNTER_SESSION_KEY);
+    const endpoint = shouldCountVisit
+        ? `https://api.countapi.xyz/hit/${VIEW_COUNTER_NAMESPACE}/${VIEW_COUNTER_KEY}`
+        : `https://api.countapi.xyz/get/${VIEW_COUNTER_NAMESPACE}/${VIEW_COUNTER_KEY}`;
+
+    try {
+        const response = await fetch(endpoint);
+        const data = await response.json();
+        const value = Number(data && data.value) || 0;
+        ui.viewerCountText.textContent = value.toLocaleString();
+        ui.viewerCountNote.textContent = "This shows total website views for your live game page.";
+        if (shouldCountVisit) {
+            window.sessionStorage.setItem(VIEW_COUNTER_SESSION_KEY, "done");
+        }
+    } catch (error) {
+        ui.viewerCountText.textContent = "Unavailable";
+        ui.viewerCountNote.textContent = "The viewer counter could not load right now.";
+    }
+}
+
 function getInstallPlatformInfo() {
     const userAgent = navigator.userAgent || "";
     const isIos = /iPhone|iPad|iPod/i.test(userAgent);
@@ -3026,6 +3062,7 @@ function openHome(panel = "main") {
     updatePremiumModeButtons();
     syncMultiplayerStatusText();
     updateInstallUi();
+    refreshViewerCount();
 }
 
 function closeHome() {
